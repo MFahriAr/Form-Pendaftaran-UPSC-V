@@ -1,0 +1,278 @@
+/* ==========================================================================
+   STYLE SISTEM WEB PENDAFTARAN LOMBA PENCAK SILAT
+   Berdasarkan Rancangan Dokumen Spesifikasi Bab 11 & Panduan Antislop
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap');
+
+:root {
+  --color-silat-50:  #F0FDF4;
+  --color-silat-100: #DCFCE7;
+  --color-silat-200: #BBF7D0;
+  --color-silat-300: #86EFAC;
+  --color-silat-400: #4ADE80;
+  --color-silat-500: #22C55E;
+  --color-silat-600: #16A34A;
+  --color-silat-700: #15803D;
+  --color-silat-800: #166534;
+  --color-silat-900: #14532D;
+  --color-emas:      #F5B301;
+  --color-emas-hover:#D99B00;
+  --color-teks:      #1F2937;
+  --color-muted:     #4B5563;
+  --shadow-kartu:    0 4px 20px -2px rgba(20, 83, 45, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-hover:    0 10px 25px -3px rgba(20, 83, 45, 0.14), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--color-teks);
+  background-color: var(--color-silat-50);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+h1, h2, h3, h4, h5, h6, .font-judul {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Pola Tradisional Batik Kawung Halus untuk Background Hero */
+.bg-batik-pencak {
+  background-color: #14532D;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.12) 0%, transparent 60%),
+    linear-gradient(135deg, #14532D 0%, #15803D 55%, #166534 100%),
+    url('../assets/img/pola-batik.svg');
+  background-repeat: repeat;
+}
+
+/* Tombol Khusus */
+.btn-emas {
+  background-color: var(--color-emas);
+  color: #14532D;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(245, 179, 1, 0.35);
+}
+
+.btn-emas:hover {
+  background-color: var(--color-emas-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(245, 179, 1, 0.45);
+}
+
+.btn-silat {
+  background-color: var(--color-silat-700);
+  color: #FFFFFF;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.25);
+}
+
+.btn-silat:hover {
+  background-color: var(--color-silat-900);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(20, 83, 45, 0.35);
+}
+
+.btn-outline-silat {
+  border: 1.5px solid var(--color-silat-700);
+  color: var(--color-silat-700);
+  background-color: transparent;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-silat:hover {
+  background-color: var(--color-silat-100);
+  color: var(--color-silat-900);
+}
+
+/* Kartu & Surface */
+.kartu-silat {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-silat-200);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-kartu);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.kartu-silat:hover {
+  border-color: var(--color-silat-300);
+}
+
+/* Input Form */
+.input-silat {
+  width: 100%;
+  border: 1.5px solid var(--color-silat-200);
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.95rem;
+  min-height: 44px; /* Minimum tap area untuk layar sentuh */
+  background-color: #FFFFFF;
+  color: var(--color-teks);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (max-width: 640px) {
+  .input-silat {
+    font-size: 16px; /* Mencegah auto-zoom paksa di iOS Safari saat fokus */
+  }
+}
+
+.input-silat:focus {
+  outline: none;
+  border-color: var(--color-silat-700);
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+}
+
+.input-silat.is-invalid {
+  border-color: #DC2626;
+  background-color: #FEF2F2;
+}
+
+.label-silat {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-silat-900);
+  margin-bottom: 0.375rem;
+}
+
+/* Stepper Indicator */
+.stepper-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.stepper-circle {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 640px) {
+  .stepper-circle {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.8125rem;
+  }
+}
+
+.stepper-circle.active {
+  background-color: var(--color-silat-700);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+}
+
+.stepper-circle.completed {
+  background-color: var(--color-silat-500);
+  color: #FFFFFF;
+}
+
+.stepper-circle.upcoming {
+  background-color: #E5E7EB;
+  color: #6B7280;
+}
+
+.stepper-line {
+  flex: 1;
+  height: 3px;
+  background-color: #E5E7EB;
+  transition: background-color 0.25s ease;
+}
+
+.stepper-line.completed {
+  background-color: var(--color-silat-500);
+}
+
+/* Dropzone Upload */
+.dropzone-silat {
+  border: 2px dashed var(--color-silat-300);
+  border-radius: 0.875rem;
+  background-color: #F8FCF8;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropzone-silat:hover, .dropzone-silat.dragover {
+  border-color: var(--color-silat-700);
+  background-color: #EDF9F0;
+}
+
+.dropzone-silat.has-file {
+  border-style: solid;
+  border-color: var(--color-silat-500);
+  background-color: #F0FDF4;
+}
+
+/* Radio Kartu Kategori (Tanding / Seni) */
+.category-card {
+  border: 2px solid var(--color-silat-200);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  min-height: 48px; /* Area tap jempol nyaman */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.category-card:hover {
+  border-color: var(--color-silat-400);
+  background-color: var(--color-silat-50);
+}
+
+.category-card.selected {
+  border-color: var(--color-silat-700);
+  background-color: #F0FDF4;
+  box-shadow: 0 0 0 2px rgba(21, 128, 61, 0.15);
+}
+
+/* Touch Device Feedbacks */
+@media (hover: none) and (pointer: coarse) {
+  .btn-emas:active, 
+  .btn-silat:active, 
+  .btn-outline-silat:active, 
+  .category-card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Struk / Cetak Bukti Pendaftaran */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-area {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .kartu-silat {
+    border: 1px solid #333333 !important;
+    box-shadow: none !important;
+  }
+}

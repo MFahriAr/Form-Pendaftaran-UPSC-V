@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Pendaftaran Kontingen | Kejuaraan Pencak Silat 2026</title>
+  <meta name="description" content="Formulir resmi pendaftaran kontingen dan atlet kejuaraan pencak silat. Multi-step form terintegrasi Google Spreadsheet dan Drive.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            silat: {
+              50:  '#F0FDF4',
+              100: '#DCFCE7',
+              200: '#BBF7D0',
+              300: '#86EFAC',
+              400: '#4ADE80',
+              500: '#22C55E',
+              600: '#16A34A',
+              700: '#15803D',
+              800: '#166534',
+              900: '#14532D',
+            },
+            emas: {
+              DEFAULT: '#F5B301',
+              hover: '#D99B00',
+            }
+          },
+          fontFamily: {
+            judul: ['Poppins', 'sans-serif'],
+            isi:   ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Kustom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-silat-50 text-gray-800 antialiased font-isi flex flex-col min-h-screen">
+
+  <!-- ======================================================================
+       NAVBAR MINIMALIS FORMULIR (HIJAU TUA)
+       ====================================================================== -->
+  <header class="bg-silat-900 text-white shadow-md sticky top-0 z-50 no-print">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Kembali ke Beranda -->
+        <a href="index.html" class="flex items-center gap-2 group text-green-200 hover:text-white transition">
+          <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          <span class="text-xs sm:text-sm font-semibold">Kembali ke Beranda</span>
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow py-5 sm:py-10 px-3 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      
+      <!-- ====================================================================
+           WIZARD FORM CARD (KARTU UTAMA FORMULIR)
+           ==================================================================== -->
+      <div id="form-wizard-card" class="kartu-silat bg-white p-4 sm:p-6 lg:p-8 no-print">
+        
+        <!-- Header Formulir -->
+        <div class="border-b border-gray-100 pb-5 mb-6 text-center sm:text-left">
+          <span class="text-xs font-bold text-silat-700 uppercase tracking-widest block mb-1">
+            Formulir Pendaftaran Daring
+          </span>
+          <h1 class="text-xl sm:text-2xl font-bold font-judul text-silat-900">
+            Pendaftaran Kontingen & Atlet Pencak Silat
+          </h1>
+          <p class="text-xs sm:text-sm text-gray-500 mt-1">
+            Silakan lengkapi tahapan berikut secara berurutan. Satu kontingen dapat mendaftarkan banyak atlet sekaligus.
+          </p>
+        </div>
+
+        <!-- ==================================================================
+             STEPPER INDIKATOR LANGKAH (Sesuai Bab 11.6)
+             ================================================================== -->
+        <div class="mb-8 px-1 sm:px-2" aria-label="Progress langkah pendaftaran">
+          <!-- Mobile step banner: visible on small screens < 640px -->
+          <div id="stepper-mobile-banner" class="sm:hidden mb-3 text-center text-xs font-semibold text-silat-900 bg-silat-50 py-2 px-3 rounded-lg border border-silat-200">
+            <!-- Diisi js/form.js -->
+          </div>
+          <div id="stepper-container" class="flex items-center justify-between">
+            <!-- Di-render oleh form.js -->
+          </div>
+        </div>
+
+        <!-- FORM UTAMA -->
+        <form id="form-pendaftaran" novalidate>
+          
+          <!-- ================================================================
+               LANGKAH 1: IDENTITAS KONTINGEN (Sesuai Bab 3.1 & Bab 11.6)
+               ================================================================ -->
+          <div id="step-1" class="space-y-5">
+            <div class="border-b border-silat-100 pb-3">
+              <h2 class="text-base sm:text-lg font-bold font-judul text-silat-900">
+                1. Identitas Kontingen
+              </h2>
+              <p class="text-xs text-gray-500">
+                Masukkan informasi resmi kontingen dan kontak penanggung jawab/official yang dapat dihubungi panitia.
+              </p>
+            </div>
+
+            <!-- Nama Kontingen -->
+            <div>
+              <label for="kontingen-nama" class="label-silat">Nama Kontingen *</label>
+              <input type="text" id="kontingen-nama" class="input-silat" 
+                placeholder="Contoh: Tapak Suci Sleman Putra / PSHT Bantul A" required>
+            </div>
+
+            <!-- Asal Perguruan / Sekolah / Instansi -->
+            <div>
+              <label for="kontingen-asal" class="label-silat">Asal Perguruan / Sekolah / Instansi *</label>
+              <input type="text" id="kontingen-asal" class="input-silat" 
+                placeholder="Contoh: Pimda 02 Tapak Suci D.I. Yogyakarta / SMA Negeri 1 Sleman" required>
+            </div>
+
+            <!-- Nama Penanggung Jawab -->
+            <div>
+              <label for="kontingen-pj" class="label-silat">Nama Penanggung Jawab (PJ) Kontingen *</label>
+              <input type="text" id="kontingen-pj" class="input-silat" 
+                placeholder="Contoh: Bambang Sudibyo, S.Pd (Ketua Kontingen / Pelatih)" required>
+            </div>
+
+            <!-- Kontak: WhatsApp & Email (2 Kolom) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="kontingen-wa" class="label-silat">Nomor WhatsApp PJ *</label>
+                <input type="tel" id="kontingen-wa" class="input-silat" 
+                  placeholder="081234567890 (Aktif untuk info verifikasi)" required>
+                <span class="text-[11px] text-gray-500 mt-1 block">Pastikan nomor aktif WhatsApp untuk konfirmasi panitia.</span>
+              </div>
+              <div>
+                <label for="kontingen-email" class="label-silat">Email Resmi PJ (Opsional)</label>
+                <input type="email" id="kontingen-email" class="input-silat" 
+                  placeholder="official.kontingen@email.com">
+                <span class="text-[11px] text-gray-500 mt-1 block">Salinan pendaftaran akan dikirim ke email ini.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================================================================
+               LANGKAH 2: DATA ATLET (Sesuai Bab 3.2, Bab 3.3, Bab 11.6)
+               ================================================================ -->
+          <div id="step-2" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-silat-100 pb-3">
+              <div>
+                <h2 class="text-base sm:text-lg font-bold font-judul text-silat-900">
+                  2. Data Atlet Kontingen
+                </h2>
+                <p class="text-xs text-gray-500">
+                  Tambahkan satu per satu atlet yang bertanding dalam kontingen ini.
+                </p>
+              </div>
+              <span id="total-atlet-counter" class="px-3 py-1 rounded-full bg-green-100 text-silat-800 text-xs font-bold border border-green-200">
+                Total: 1 atlet
+              </span>
+            </div>
+
+            <!-- Wadah Daftar Kartu Atlet (Dinamis dari form.js) -->
+            <div id="daftar-atlet-container" class="space-y-4">
+              <!-- Rendered by form.js -->
+            </div>
+
+            <!-- Tombol Tambah Atlet Bertitik Hijau Sesuai Bab 11.6 -->
+            <button id="btn-tambah-atlet" type="button" 
+              class="w-full py-4 rounded-xl border-2 border-dashed border-green-600 bg-green-50/60 hover:bg-green-100/70 text-silat-800 font-bold text-sm transition flex items-center justify-center gap-2 group">
+              <span class="w-6 h-6 rounded-full bg-silat-700 text-white flex items-center justify-center font-bold text-sm group-hover:scale-110 transition-transform">
+                +
+              </span>
+              <span>Tambah Atlet Lagi ke Kontingen Ini</span>
+            </button>
+          </div>
+
+          <!-- ================================================================
+               LANGKAH 3: DOKUMEN PERSYARATAN KONTINGEN (Bab 3.4 & 11.6)
+               ================================================================ -->
+          <div id="step-3" class="hidden space-y-5">
+            <div class="border-b border-silat-100 pb-3">
+              <h2 class="text-base sm:text-lg font-bold font-judul text-silat-900">
+                3. Dokumen Persyaratan Kontingen
+              </h2>
+              <p class="text-xs text-gray-500">
+                Dokumen diunggah satu kali per kontingen. Format yang diterima: PDF, JPG, PNG (Maks 5 MB per file).
+              </p>
+            </div>
+
+            <!-- Area 5 Dropzone Berkas Sesuai Bab 11.6 -->
+            <div id="dropzone-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Diisi oleh form.js:
+                   1. Pas Foto
+                   2. KK / Akta
+                   3. Surat Izin Orang Tua
+                   4. Surat Keterangan Sehat
+                   5. Formulir Pendaftaran
+              -->
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5">
+              <svg class="w-4 h-4 text-amber-700 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Dokumen asli/fotokopi legalisir tetap wajib dibawa oleh official kontingen pada saat verifikasi fisik dan penimbangan badan technical meeting.</span>
+            </div>
+          </div>
+
+          <!-- ================================================================
+               LANGKAH 4: PERIKSA & KIRIM (Sesuai Bab 11.6)
+               ================================================================ -->
+          <div id="step-4" class="hidden space-y-6">
+            <div class="border-b border-silat-100 pb-3">
+              <h2 class="text-base sm:text-lg font-bold font-judul text-silat-900">
+                4. Periksa Kembali Data Pendaftaran
+              </h2>
+              <p class="text-xs text-gray-500">
+                Harap periksa kembali seluruh data kontingen, atlet, dan kelengkapan dokumen sebelum mengirim pendaftaran.
+              </p>
+            </div>
+
+            <!-- Ringkasan Bagian Kontingen -->
+            <div class="border border-green-200 rounded-xl bg-green-50/30 p-4">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-green-200/60">
+                <h3 class="font-bold text-silat-900 text-sm flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-silat-700 text-white text-[11px] font-bold flex items-center justify-center">1</span>
+                  Identitas Kontingen
+                </h3>
+                <button type="button" onclick="tampilkanLangkah(1)" class="text-xs font-semibold text-green-700 hover:text-green-900 underline">
+                  Ubah
+                </button>
+              </div>
+              <div id="summary-kontingen">
+                <!-- Rendered by form.js -->
+              </div>
+            </div>
+
+            <!-- Ringkasan Bagian Atlet -->
+            <div class="border border-green-200 rounded-xl bg-green-50/30 p-4">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-green-200/60">
+                <h3 class="font-bold text-silat-900 text-sm flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-silat-700 text-white text-[11px] font-bold flex items-center justify-center">2</span>
+                  Daftar Atlet Kontingen
+                </h3>
+                <button type="button" onclick="tampilkanLangkah(2)" class="text-xs font-semibold text-green-700 hover:text-green-900 underline">
+                  Ubah / Tambah
+                </button>
+              </div>
+              <div id="summary-atlet">
+                <!-- Rendered by form.js -->
+              </div>
+            </div>
+
+            <!-- Ringkasan Bagian Dokumen -->
+            <div class="border border-green-200 rounded-xl bg-green-50/30 p-4">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-green-200/60">
+                <h3 class="font-bold text-silat-900 text-sm flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-silat-700 text-white text-[11px] font-bold flex items-center justify-center">3</span>
+                  Status Unggah Dokumen
+                </h3>
+                <button type="button" onclick="tampilkanLangkah(3)" class="text-xs font-semibold text-green-700 hover:text-green-900 underline">
+                  Ubah Dokumen
+                </button>
+              </div>
+              <div id="summary-dokumen">
+                <!-- Rendered by form.js -->
+              </div>
+            </div>
+
+            <!-- Checkbox Pernyataan Integritas Sesuai Bab 11.6 -->
+            <div class="p-4 rounded-xl border-2 border-green-600 bg-white flex items-start gap-3">
+              <input type="checkbox" id="cb-pernyataan" class="mt-1 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 cursor-pointer">
+              <label for="cb-pernyataan" class="text-xs sm:text-sm text-gray-800 leading-snug cursor-pointer font-medium">
+                Saya menyatakan dengan sesungguhnya bahwa seluruh data kontingen dan atlet yang didaftarkan adalah <strong>benar, sah, dan dapat dipertanggungjawabkan</strong>. Kami siap menaati seluruh peraturan pertandingan dan tata tertib kejuaraan pencak silat.
+              </label>
+            </div>
+          </div>
+
+          <!-- ================================================================
+               TOMBOL NAVIGASI BAWAH (KEMBALI, LANJUT, KIRIM)
+               ================================================================ -->
+          <div class="pt-6 border-t border-gray-100 flex items-center justify-between gap-3">
+            <button id="btn-kembali" type="button" 
+              class="invisible px-4 sm:px-5 py-3 sm:py-2.5 min-h-[44px] rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
+              <span>&larr; Kembali</span>
+            </button>
+
+            <!-- Tombol Lanjut ke Langkah Berikutnya -->
+            <button id="btn-lanjut" type="button" 
+              class="btn-silat px-6 sm:px-7 py-3 sm:py-2.5 min-h-[44px] rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5">
+              <span>Lanjut &rarr;</span>
+            </button>
+
+            <!-- Container Tombol Kirim Final di Langkah 4 -->
+            <div id="btn-kirim-container" class="hidden">
+              <button id="btn-kirim-final" type="submit" disabled
+                class="btn-emas px-6 sm:px-8 py-3 min-h-[44px] rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                <span>Kirim Pendaftaran</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Spinner Indikator Pengiriman Sesuai Bab 11.7 -->
+          <div id="spinner-mengirim" class="hidden mt-4 p-3 rounded-lg bg-green-50 border border-green-200 text-center text-xs text-silat-900 font-semibold flex items-center justify-center gap-2">
+            <svg class="animate-spin h-4 w-4 text-silat-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Sedang memproses dan menyimpan data pendaftaran ke sistem... Mohon tunggu.</span>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- ====================================================================
+           LAYAR SUKSES PENDAFTARAN (Sesuai Bab 11.6 & 11.7)
+           ==================================================================== -->
+      <div id="layar-sukses" class="hidden kartu-silat bg-white p-8 sm:p-12 text-center no-print">
+        <!-- Lingkaran Centang Animasi -->
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-5 shadow-inner">
+          <svg class="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+
+        <span class="text-xs font-bold text-silat-700 uppercase tracking-widest block mb-1">
+          Status Registrasi Berhasil
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-judul text-silat-900 mb-2">
+          Pendaftaran Berhasil Dikirim!
+        </h2>
+        
+        <p class="text-xs sm:text-sm text-gray-600 max-w-lg mx-auto mb-6">
+          Terima kasih, kontingen <strong id="sukses-nama-kontingen" class="text-silat-900">-</strong> dengan <strong id="sukses-total-atlet" class="text-silat-900">-</strong> telah resmi terdaftar dalam sistem kejuaraan.
+        </p>
+
+        <!-- Kartu ID Kontingen -->
+        <div class="max-w-md mx-auto p-4 rounded-xl bg-silat-50 border border-green-200 text-center mb-6">
+          <span class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider block">ID Registrasi Kontingen Anda:</span>
+          <span id="sukses-id-kontingen" class="text-xl sm:text-2xl font-mono font-bold text-silat-900 tracking-wider block my-1">
+            KTG-2026-0000
+          </span>
+          <p id="sukses-mode-info" class="text-[11px] text-green-700 font-medium">
+            Data tersimpan aman di Google Spreadsheet dan Google Drive panitia.
+          </p>
+        </div>
+
+        <!-- Tombol Aksi Layar Sukses -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button type="button" onclick="window.print()" class="btn-silat w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+            <span>Cetak Bukti Pendaftaran</span>
+          </button>
+
+          <a href="index.html" class="w-full sm:w-auto px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 text-xs font-semibold text-center transition">
+            Kembali ke Beranda
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       STRUK RESMI BUKTI PENDAFTARAN (TAMPIL KHUSUS SAAT CETAK / PRINT)
+       ====================================================================== -->
+  <div class="hidden print-area p-8 max-w-4xl mx-auto text-black">
+    <div class="border-b-2 border-black pb-4 mb-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <img src="assets/img/logo nu.png" alt="Logo NU" class="h-10 w-auto object-contain">
+          <img src="assets/img/logo ipsi.png" alt="Logo IPSI" class="h-10 w-auto object-contain">
+          <img src="assets/img/Logo_Pagar_Nusa.png" alt="Logo Pagar Nusa" class="h-10 w-auto object-contain">
+          <img src="assets/img/Unu giri.png" alt="Logo UNUGIRI" class="h-10 w-auto object-contain">
+          <img src="assets/img/Logo UKM HD.png" alt="Logo UKM Pencak Silat" class="h-10 w-auto object-contain">
+        </div>
+        <div>
+          <h2 class="text-base font-bold uppercase tracking-wider">PANITIA PELAKSANA KEJUARAAN PENCAK SILAT 2026</h2>
+          <p class="text-xs">Sekretariat: Gedung Auditorium Kampus UNUGIRI Bojonegoro | Telp: +62 812-3456-7890</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <span class="text-xs font-mono block">BUKTI RESMI PENDAFTARAN</span>
+        <span class="text-sm font-bold font-mono">TANDA TERIMA</span>
+      </div>
+    </div>
+
+    <div class="my-4 text-xs space-y-2">
+      <div class="grid grid-cols-2 gap-2">
+        <div><strong>Nomor Registrasi Kontingen:</strong> <span class="font-mono" id="print-id-kontingen">KTG-2026-XXXX</span></div>
+        <div><strong>Tanggal / Waktu:</strong> <span id="print-tanggal">-</span></div>
+        <div><strong>Nama Kontingen:</strong> <span id="print-nama-kontingen">-</span></div>
+        <div><strong>Asal Lembaga:</strong> <span id="print-asal-kontingen">-</span></div>
+        <div><strong>Penanggung Jawab:</strong> <span id="print-pj-kontingen">-</span></div>
+        <div><strong>Nomor WhatsApp:</strong> <span id="print-wa-kontingen">-</span></div>
+      </div>
+    </div>
+
+    <div class="my-4">
+      <h3 class="text-xs font-bold border-b border-black pb-1 mb-2">DAFTAR ATLET KONTINGEN TERDAFTAR:</h3>
+      <div id="print-tabel-atlet" class="text-xs">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <div class="mt-8 pt-4 border-t border-gray-400 grid grid-cols-2 text-center text-xs">
+      <div>
+        <p>Penanggung Jawab Kontingen,</p>
+        <div class="h-16"></div>
+        <p class="font-bold underline">(......................................................)</p>
+      </div>
+      <div>
+        <p>Panitia Verifikasi Kejuaraan,</p>
+        <div class="h-16"></div>
+        <p class="font-bold underline">( Tim Sekretariat & IT IPSI )</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Formulir & Kirim -->
+  <script src="js/kirim.js"></script>
+  <script src="js/form.js"></script>
+
+  <!-- Sinkronisasi Data Struk Cetak Saat Print Dipanggil -->
+  <script>
+    window.addEventListener("beforeprint", () => {
+      const idKtg = document.getElementById("sukses-id-kontingen")?.textContent || "KTG-2026-DEMO";
+      const namaKtg = document.getElementById("kontingen-nama")?.value || "-";
+      const asalKtg = document.getElementById("kontingen-asal")?.value || "-";
+      const pjKtg = document.getElementById("kontingen-pj")?.value || "-";
+      const waKtg = document.getElementById("kontingen-wa")?.value || "-";
+
+      document.getElementById("print-id-kontingen").textContent = idKtg;
+      document.getElementById("print-nama-kontingen").textContent = namaKtg;
+      document.getElementById("print-asal-kontingen").textContent = asalKtg;
+      document.getElementById("print-pj-kontingen").textContent = pjKtg;
+      document.getElementById("print-wa-kontingen").textContent = waKtg;
+      document.getElementById("print-tanggal").textContent = new Date().toLocaleString("id-ID");
+
+      const tabelPrint = document.getElementById("print-tabel-atlet");
+      if (tabelPrint && Array.isArray(daftarAtlet)) {
+        tabelPrint.innerHTML = `
+          <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+            <thead>
+              <tr style="border-bottom: 1px solid #000; text-align: left;">
+                <th style="padding: 4px;">No</th>
+                <th style="padding: 4px;">Nama Lengkap</th>
+                <th style="padding: 4px;">TTL / Usia</th>
+                <th style="padding: 4px;">Kategori</th>
+                <th style="padding: 4px;">Kelas</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${daftarAtlet.map((a, i) => `
+                <tr style="border-bottom: 1px dotted #ccc;">
+                  <td style="padding: 4px;">${i + 1}</td>
+                  <td style="padding: 4px; font-weight: bold;">${a.nama || '-'}</td>
+                  <td style="padding: 4px;">${a.tempat_lahir || '-'}, ${a.tanggal_lahir || '-'} (${a.usia || '-'} thn)</td>
+                  <td style="padding: 4px;">${a.kategori || '-'}</td>
+                  <td style="padding: 4px;">${a.kelas || '-'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

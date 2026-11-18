@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <!-- Pola Batik Kawung Silat Tradisional Halus -->
+  <g fill="none" stroke="#22C55E" stroke-width="1" stroke-opacity="0.15">
+    <!-- Lingkaran Luar -->
+    <ellipse cx="30" cy="15" rx="14" ry="10" transform="rotate(45 30 15)"/>
+    <ellipse cx="30" cy="45" rx="14" ry="10" transform="rotate(-45 30 45)"/>
+    <ellipse cx="15" cy="30" rx="10" ry="14" transform="rotate(45 15 30)"/>
+    <ellipse cx="45" cy="30" rx="10" ry="14" transform="rotate(-45 45 30)"/>
+    
+    <!-- Titik Tengah Geometris -->
+    <circle cx="30" cy="30" r="3" fill="#F5B301" fill-opacity="0.2"/>
+    <circle cx="0" cy="0" r="3" fill="#F5B301" fill-opacity="0.2"/>
+    <circle cx="60" cy="0" r="3" fill="#F5B301" fill-opacity="0.2"/>
+    <circle cx="0" cy="60" r="3" fill="#F5B301" fill-opacity="0.2"/>
+    <circle cx="60" cy="60" r="3" fill="#F5B301" fill-opacity="0.2"/>
+  </g>
+</svg>

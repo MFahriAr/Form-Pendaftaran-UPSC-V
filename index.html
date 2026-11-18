@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kejuaraan Pencak Silat 2026 | Portal Pendaftaran Kontingen Resmi</title>
+  <meta name="description" content="Sistem Web Pendaftaran Peserta Event Lomba Pencak Silat Berbasis Kontingen. Terintegrasi dengan Google Spreadsheet dan Google Drive.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            silat: {
+              50:  '#F0FDF4',
+              100: '#DCFCE7',
+              200: '#BBF7D0',
+              300: '#86EFAC',
+              400: '#4ADE80',
+              500: '#22C55E',
+              600: '#16A34A',
+              700: '#15803D',
+              800: '#166534',
+              900: '#14532D',
+            },
+            emas: {
+              DEFAULT: '#F5B301',
+              hover: '#D99B00',
+            }
+          },
+          fontFamily: {
+            judul: ['Poppins', 'sans-serif'],
+            isi:   ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Kustom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-silat-50 text-gray-800 antialiased font-isi flex flex-col min-h-screen">
+
+  <!-- ======================================================================
+       NAVBAR UTAMA (HIJAU TUA #14532D)
+       ====================================================================== -->
+  <header class="bg-silat-900 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Deretan Logo Penyelenggara & Afiliasi Resmi (5 Logo dari Kiri ke Kanan) -->
+        <a href="index.html" class="flex items-center gap-1.5 sm:gap-2.5 md:gap-3 group flex-shrink-0" title="Kejuaraan Pencak Silat 2026">
+          <img src="assets/img/logo nu.png" alt="Logo Nahdlatul Ulama" class="h-7 sm:h-9 md:h-11 w-auto object-contain drop-shadow hover:scale-105 transition-transform duration-200">
+          <img src="assets/img/logo ipsi.png" alt="Logo Ikatan Pencak Silat Indonesia" class="h-7 sm:h-9 md:h-11 w-auto object-contain drop-shadow hover:scale-105 transition-transform duration-200">
+          <img src="assets/img/Logo_Pagar_Nusa.png" alt="Logo Pencak Silat NU Pagar Nusa" class="h-7 sm:h-9 md:h-11 w-auto object-contain drop-shadow hover:scale-105 transition-transform duration-200">
+          <img src="assets/img/Unu giri.png" alt="Logo UNUGIRI Bojonegoro" class="h-7 sm:h-9 md:h-11 w-auto object-contain drop-shadow hover:scale-105 transition-transform duration-200">
+          <img src="assets/img/Logo UKM HD.png" alt="Logo UKM Pencak Silat NU Pagar Nusa UNUGIRI" class="h-7 sm:h-9 md:h-11 w-auto object-contain drop-shadow hover:scale-105 transition-transform duration-200">
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-5 lg:gap-7 text-sm font-medium">
+          <a href="#informasi" class="text-green-100 hover:text-white transition">Informasi Lomba</a>
+          <a href="#alur" class="text-green-100 hover:text-white transition">Alur Pendaftaran</a>
+          <a href="#persyaratan" class="text-green-100 hover:text-white transition">Persyaratan Berkas</a>
+          <a href="daftar.html" class="btn-emas px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider">
+            Daftar Sekarang
+          </a>
+        </nav>
+
+        <!-- Mobile Menu Toggle Button (Min Tap Target 44x44px) -->
+        <button id="mobile-menu-btn" type="button" aria-expanded="false" aria-label="Buka menu navigasi"
+          class="md:hidden p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-green-200 hover:text-white hover:bg-silat-800 focus:outline-none focus:ring-2 focus:ring-green-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu (Touch Friendly) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-silat-900 border-t border-green-800 px-4 pt-3 pb-5 space-y-2">
+      <a href="#informasi" class="mobile-nav-link block text-sm font-semibold text-green-100 hover:text-white py-2.5 px-3 rounded-lg hover:bg-silat-800 transition">Informasi Lomba</a>
+      <a href="#alur" class="mobile-nav-link block text-sm font-semibold text-green-100 hover:text-white py-2.5 px-3 rounded-lg hover:bg-silat-800 transition">Alur Pendaftaran</a>
+      <a href="#persyaratan" class="mobile-nav-link block text-sm font-semibold text-green-100 hover:text-white py-2.5 px-3 rounded-lg hover:bg-silat-800 transition">Persyaratan Berkas</a>
+      <div class="pt-2">
+        <a href="daftar.html" class="btn-emas block text-center w-full py-3 rounded-full text-xs font-bold uppercase tracking-wider min-h-[44px] flex items-center justify-center">
+          Daftar Sekarang
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    
+    <!-- ======================================================================
+         HERO SECTION DENGAN GRADASI HIJAU RIMBA & ORNAMEN BATIK HALUS
+         ====================================================================== -->
+    <section class="bg-batik-pencak text-white py-10 sm:py-16 lg:py-20 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          <!-- Teks Hero -->
+          <div class="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-silat-800/80 border border-emas/40 text-emas text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emas"></span>
+              Pendaftaran Resmi Gelombang I Telah Dibuka
+            </div>
+
+            <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold font-judul tracking-tight leading-tight text-white">
+              UNUGIRI PENCAK SILAT CHAMPIONSHIP V
+            </h1>
+
+            <p class="text-sm sm:text-base lg:text-lg text-green-100 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              Wujudkan prestasi pencak silat, junjung tinggi sportivitas dan keluhuran budi pekerti bela diri warisan bangsa. Sistem pendaftaran daring berbasis kontingen terintegrasi langsung dengan panitia.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
+              <a href="daftar.html" class="btn-emas text-center px-8 py-3.5 rounded-full text-sm font-bold uppercase tracking-wider min-h-[44px] flex items-center justify-center">
+                Daftar Sekarang
+              </a>
+              <button id="btn-lihat-juknis" type="button" class="btn-outline-silat border-green-300 text-green-100 hover:bg-silat-800/60 hover:text-white text-center px-6 py-3.5 rounded-full text-sm font-semibold transition min-h-[44px] flex items-center justify-center">
+                Lihat Petunjuk Teknis (Juknis)
+              </button>
+            </div>
+          </div>
+
+          <!-- Hero Artwork (Maskot Naga Pencak Silat Resmi UNUGIRI) -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-sm bg-gradient-to-tr from-silat-900 to-silat-700/80 rounded-2xl border border-green-500/30 p-6 flex flex-col items-center justify-center shadow-2xl">
+              <!-- Ornamen Lingkaran & Simbol Bela Diri Tradisional -->
+              <div class="absolute inset-4 rounded-xl border border-emas/20 pointer-events-none"></div>
+              
+              <img src="assets/img/Maskot naga polos.png" alt="Maskot Naga Pencak Silat UNUGIRI" class="w-48 h-48 sm:w-56 sm:h-56 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300">
+
+              <div class="mt-3 text-center">
+                <h3 class="font-judul font-bold text-base text-white">Maskot Kejuaraan Resmi</h3>
+                <p class="text-xs text-green-200">UKM Pencak Silat UNUGIRI Bojonegoro</p>
+              </div>
+
+              <!-- Bar Hitung Mundur Ringkas -->
+              <div class="w-full mt-5 pt-4 border-t border-green-600/50 flex justify-around text-center">
+                <div>
+                  <span id="cd-hari" class="block font-bold text-base text-emas">24</span>
+                  <span class="text-[10px] text-green-200 uppercase">Hari</span>
+                </div>
+                <div class="text-green-500 font-bold">:</div>
+                <div>
+                  <span id="cd-jam" class="block font-bold text-base text-emas">12</span>
+                  <span class="text-[10px] text-green-200 uppercase">Jam</span>
+                </div>
+                <div class="text-green-500 font-bold">:</div>
+                <div>
+                  <span id="cd-menit" class="block font-bold text-base text-emas">45</span>
+                  <span class="text-[10px] text-green-200 uppercase">Menit</span>
+                </div>
+                <div class="text-green-500 font-bold">:</div>
+                <div>
+                  <span id="cd-detik" class="block font-bold text-base text-emas">30</span>
+                  <span class="text-[10px] text-green-200 uppercase">Detik</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         4 KARTU INFO UTAMA (JADWAL, LOKASI, KATEGORI, BATAS DAFTAR)
+         Menimpa Hero Sedikit Sesuai Rencana Bab 11.5
+         ====================================================================== -->
+    <section id="informasi" class="relative -mt-8 sm:-mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Kartu 1: Jadwal -->
+        <div class="kartu-silat p-5 bg-white">
+          <div class="w-10 h-10 rounded-lg bg-green-100 text-silat-700 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider block">Waktu Pertandingan</span>
+          <h3 class="font-judul font-bold text-base text-silat-900 mt-1">18 s.d. 21 Desember 2026</h3>
+          <p class="text-xs text-gray-600 mt-1">Technical Meeting: 17 Des 2026</p>
+        </div>
+
+        <!-- Kartu 2: Lokasi -->
+        <div class="kartu-silat p-5 bg-white">
+          <div class="w-10 h-10 rounded-lg bg-green-100 text-silat-700 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider block">Tempat Pertandingan</span>
+          <h3 class="font-judul font-bold text-base text-silat-900 mt-1">Gedung Auditorium</h3>
+          <p class="text-xs text-gray-600 mt-1">Kampus UNUGIRI Bojonegoro</p>
+        </div>
+
+        <!-- Kartu 3: Kategori -->
+        <div class="kartu-silat p-5 bg-white">
+          <div class="w-10 h-10 rounded-lg bg-green-100 text-silat-700 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider block">Kategori Lomba</span>
+          <h3 class="font-judul font-bold text-base text-silat-900 mt-1">Tanding & Seni</h3>
+          <p class="text-xs text-gray-600 mt-1">Usia Dini, Remaja, hingga Dewasa</p>
+        </div>
+
+        <!-- Kartu 4: Batas Pendaftaran -->
+        <div class="kartu-silat p-5 bg-white border-l-4 border-l-emas">
+          <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <span class="text-xs font-semibold text-amber-700 uppercase tracking-wider block">Batas Akhir Pendaftaran</span>
+          <h3 class="font-judul font-bold text-base text-silat-900 mt-1">10 Desember 2026</h3>
+          <p class="text-xs text-red-600 font-medium mt-1">Kuota terbatas 500 atlet</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         BAGIAN ALUR PENDAFTARAN PESERTA (Sesuai Bab 4 & 4.1 Flowchart)
+         ====================================================================== -->
+    <section id="alur" class="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+        <span class="text-xs font-bold text-silat-700 uppercase tracking-widest block mb-1 sm:mb-2">Panduan Peserta</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-judul text-silat-900">
+          Alur Pendaftaran Kontingen & Atlet
+        </h2>
+        <p class="text-xs sm:text-sm text-gray-600 mt-2">
+          Pendaftaran dilakukan oleh perwakilan atau penanggung jawab kontingen melalui formulir terpadu 4 tahap:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 relative">
+        
+        <!-- Langkah 1 -->
+        <div class="kartu-silat p-6 text-center relative flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full bg-silat-700 text-white font-judul font-bold text-lg flex items-center justify-center mb-4 shadow">
+            1
+          </div>
+          <h3 class="font-judul font-bold text-base text-silat-900 mb-2">Isi Identitas Kontingen</h3>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            Masukkan nama kontingen, asal perguruan/sekolah/instansi, serta identitas kontak penanggung jawab kontingen.
+          </p>
+        </div>
+
+        <!-- Langkah 2 -->
+        <div class="kartu-silat p-6 text-center relative flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full bg-silat-700 text-white font-judul font-bold text-lg flex items-center justify-center mb-4 shadow">
+            2
+          </div>
+          <h3 class="font-judul font-bold text-base text-silat-900 mb-2">Tambah Data Atlet</h3>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            Tambahkan atlet satu per satu, isi biodata, usia secara manual, pilih kategori (Tanding/Seni), dan kelas tanding.
+          </p>
+        </div>
+
+        <!-- Langkah 3 -->
+        <div class="kartu-silat p-6 text-center relative flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full bg-silat-700 text-white font-judul font-bold text-lg flex items-center justify-center mb-4 shadow">
+            3
+          </div>
+          <h3 class="font-judul font-bold text-base text-silat-900 mb-2">Unggah Dokumen Kontingen</h3>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            Unggah dokumen persyaratan kontingen (pas foto, KK/Akta, surat izin orang tua, surat sehat dokter, formulir).
+          </p>
+        </div>
+
+        <!-- Langkah 4 -->
+        <div class="kartu-silat p-6 text-center relative flex flex-col items-center border-l-4 border-l-green-500">
+          <div class="w-12 h-12 rounded-full bg-silat-500 text-white font-judul font-bold text-lg flex items-center justify-center mb-4 shadow">
+            4
+          </div>
+          <h3 class="font-judul font-bold text-base text-silat-900 mb-2">Periksa & Kirim</h3>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            Periksa ringkasan seluruh data, lakukan perbaikan jika perlu, centang pernyataan, dan kirim langsung ke Google Sheets.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="mt-10 text-center">
+        <a href="daftar.html" class="btn-silat inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold shadow-lg">
+          <span>Mulai Isi Formulir Sekarang</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PERSYARATAN BERKAS DOKUMEN (Sesuai Bab 3.4 Dokumen Persyaratan)
+         ====================================================================== -->
+    <section id="persyaratan" class="py-16 bg-white border-y border-silat-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <div class="lg:col-span-5 space-y-4">
+            <span class="text-xs font-bold text-silat-700 uppercase tracking-widest block">Kelengkapan Administrasi</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold font-judul text-silat-900">
+              Dokumen Persyaratan Kontingen
+            </h2>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Sesuai ketentuan, dokumen dikumpulkan satu kali pada tingkat kontingen saat pendaftaran daring. Dokumen akan langsung tersimpan aman di Google Drive panitia dan ditautkan ke Spreadsheet pendaftaran.
+            </p>
+            <div class="p-4 rounded-xl bg-silat-50 border border-silat-200 text-xs text-silat-900">
+              <strong>Catatan Keamanan Berkas:</strong> Berkas dokumen pribadi peserta hanya dapat diakses oleh tim verifikator panitia lomba untuk kepentingan validasi data atlet.
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              <!-- Item Syarat 1 -->
+              <div class="p-4 rounded-xl border border-silat-200 bg-silat-50/50 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-green-100 text-silat-700 font-bold text-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                  ✓
+                </span>
+                <div>
+                  <h3 class="font-bold text-sm text-gray-900">Pas Foto Berwarna</h3>
+                  <p class="text-xs text-gray-600 mt-0.5">Pas foto atlet/kontingen terbaru dengan seragam silat lengkap.</p>
+                </div>
+              </div>
+
+              <!-- Item Syarat 2 -->
+              <div class="p-4 rounded-xl border border-silat-200 bg-silat-50/50 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-green-100 text-silat-700 font-bold text-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                  ✓
+                </span>
+                <div>
+                  <h3 class="font-bold text-sm text-gray-900">KK atau Akta Kelahiran</h3>
+                  <p class="text-xs text-gray-600 mt-0.5">Bukti keabsahan usia dan tanggal lahir atlet (format PDF/JPG).</p>
+                </div>
+              </div>
+
+              <!-- Item Syarat 3 -->
+              <div class="p-4 rounded-xl border border-silat-200 bg-silat-50/50 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-green-100 text-silat-700 font-bold text-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                  ✓
+                </span>
+                <div>
+                  <h3 class="font-bold text-sm text-gray-900">Surat Izin Orang Tua</h3>
+                  <p class="text-xs text-gray-600 mt-0.5">Surat pernyataan persetujuan wali/orang tua bermaterai atau resmi.</p>
+                </div>
+              </div>
+
+              <!-- Item Syarat 4 -->
+              <div class="p-4 rounded-xl border border-silat-200 bg-silat-50/50 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-green-100 text-silat-700 font-bold text-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                  ✓
+                </span>
+                <div>
+                  <h3 class="font-bold text-sm text-gray-900">Surat Keterangan Sehat</h3>
+                  <p class="text-xs text-gray-600 mt-0.5">Surat keterangan dokter/Puskesmas menyatakan layak bertanding.</p>
+                </div>
+              </div>
+
+              <!-- Item Syarat 5 -->
+              <div class="sm:col-span-2 p-4 rounded-xl border border-silat-200 bg-silat-50/50 flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-green-100 text-silat-700 font-bold text-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                  ✓
+                </span>
+                <div>
+                  <h3 class="font-bold text-sm text-gray-900">Formulir Pendaftaran Resmi</h3>
+                  <p class="text-xs text-gray-600 mt-0.5">Surat tugas atau formulir kontingen yang telah ditandatangani oleh pimpinan perguruan/sekolah.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       MODAL PETUNJUK TEKNIS (JUKNIS)
+       ====================================================================== -->
+  <div id="modal-juknis" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-green-200">
+      <div class="p-5 border-b border-gray-200 flex items-center justify-between bg-silat-900 text-white rounded-t-2xl">
+        <h3 class="font-judul font-bold text-base sm:text-lg">Petunjuk Teknis Kejuaraan Pencak Silat 2026</h3>
+        <button id="btn-tutup-juknis" type="button" class="text-green-300 hover:text-white p-1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-gray-700 leading-relaxed">
+        <div>
+          <h4 class="font-bold text-silat-900 mb-1">1. Ketentuan Umum</h4>
+          <p>Pertandingan berpedoman pada Peraturan Pertandingan Pencak Silat Ikatan Pencak Silat Indonesia (IPSI) terbaru. Seluruh peserta wajib mematuhi kode etik pesilat dan sportivitas.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-silat-900 mb-1">2. Kategori Tanding & Seni</h4>
+          <p>Kategori Tanding dibagi berdasarkan kelas berat badan, sedangkan Kategori Seni mencakup Tunggal, Ganda, dan Regu (TGR) serta Solo Kreatif.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-silat-900 mb-1">3. Administrasi & Validasi Berkas</h4>
+          <p>Verifikasi fisik berkas asli (Akte/KK dan Surat Sehat) dilakukan pada saat penimbangan badan dan Technical Meeting tanggal 17 Desember 2026.</p>
+        </div>
+        <div class="p-3 bg-green-50 rounded-lg border border-green-200 text-green-900">
+          <strong>Perhatian:</strong> Pendaftaran dinyatakan sah setelah data terisi lengkap dan bukti konfirmasi diterima oleh panitia.
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 rounded-b-2xl">
+        <a href="daftar.html" class="btn-silat px-5 py-2 rounded-xl text-xs font-bold">
+          Lanjut ke Pendaftaran
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       FOOTER HIJAU TUA (#14532D)
+       ====================================================================== -->
+  <footer class="bg-silat-900 text-white pt-12 pb-8 border-t border-green-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-green-800/80">
+        
+        <!-- Kolom 1: Profil Panitia -->
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <img src="assets/img/logo nu.png" alt="Logo Nahdlatul Ulama" class="h-8 w-auto object-contain drop-shadow">
+            <img src="assets/img/logo ipsi.png" alt="Logo Ikatan Pencak Silat Indonesia" class="h-8 w-auto object-contain drop-shadow">
+            <img src="assets/img/Logo_Pagar_Nusa.png" alt="Logo Pencak Silat NU Pagar Nusa" class="h-8 w-auto object-contain drop-shadow">
+            <img src="assets/img/Unu giri.png" alt="Logo UNUGIRI Bojonegoro" class="h-8 w-auto object-contain drop-shadow">
+            <img src="assets/img/Logo UKM HD.png" alt="Logo UKM Pencak Silat NU Pagar Nusa UNUGIRI" class="h-8 w-auto object-contain drop-shadow">
+          </div>
+          <h4 class="font-judul font-bold text-base text-white mb-1">PANITIA KEJUARAAN PENCAK SILAT</h4>
+          <p class="text-xs text-green-200 leading-relaxed">
+            Portal resmi pendaftaran peserta dan kontingen kejuaraan pencak silat UNUGIRI Bojonegoro. Memajukan bela diri budaya bangsa menuju prestasi dunia.
+          </p>
+        </div>
+
+        <!-- Kolom 2: Tautan Akses -->
+        <div>
+          <h4 class="font-judul font-bold text-sm text-green-300 uppercase tracking-wider mb-3">Tautan Cepat</h4>
+          <ul class="space-y-2 text-xs text-green-100">
+            <li><a href="#informasi" class="hover:text-white transition">Informasi & Lokasi Lomba</a></li>
+            <li><a href="#alur" class="hover:text-white transition">Alur Pendaftaran Kontingen</a></li>
+            <li><a href="#persyaratan" class="hover:text-white transition">Syarat & Berkas Persyaratan</a></li>
+            <li><a href="daftar.html" class="hover:text-white transition">Formulir Pendaftaran Online</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Kontak Panitia Sesuai Bab 11.5 -->
+        <div>
+          <h4 class="font-judul font-bold text-sm text-green-300 uppercase tracking-wider mb-3">Sekretariat & Bantuan</h4>
+          <div class="space-y-2 text-xs text-green-100">
+            <p class="flex items-center gap-2">
+              <span class="text-emas font-bold">WA:</span> ------------
+            </p>
+            <p class="flex items-center gap-2">
+              <span class="text-emas font-bold">Email:</span> ------------
+            </p>
+            <p class="flex items-center gap-2">
+              <span class="text-emas font-bold">Lokasi:</span> ------------
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-green-300">
+        <p>&copy; 2026 Panitia Pelaksana Kejuaraan Pencak Silat. Seluruh hak cipta dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Interaksi -->
+  <script src="js/app.js"></script>
+</body>
+</html>
